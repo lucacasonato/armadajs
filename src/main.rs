@@ -19,7 +19,7 @@ async fn main() {
         .build();
 
     let mut runtime = JsRuntime::new(RuntimeOptions {
-        extensions: vec![armada_ext],
+        extensions: vec![deno_console::init(), armada_ext],
         ..Default::default()
     });
     runtime

@@ -21,6 +21,7 @@ checksum = "98161a4e3e2184da77bb14f02184cdd111e83bbbcc9979dfee3c44b9a85f5602"
 name = "armadajs"
 version = "0.1.0"
 dependencies = [
+ "deno_console",
  "deno_core",
  "tokio",
 ]
@@ -60,6 +61,15 @@ name = "convert_case"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6245d59a3e82a7fc217c5828a6692dbc6dfb63a0c8c90495621f7b9d79704a0e"
+
+[[package]]
+name = "deno_console"
+version = "0.71.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d20dede31c9185d7b80f68b5526f4807649fba562ffadca634df62e6fb4e2990"
+dependencies = [
+ "deno_core",
+]
 
 [[package]]
 name = "deno_core"

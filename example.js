@@ -1,10 +1,27 @@
 async function main() {
-  Deno.core.print("Hello, World!\n");
+  console.log("Hello, World!\n");
 
-  Deno.core.print(`armadajs version: ${Armada.version}\n`);
+  console.log(`armadajs version: ${Armada.version}\n`);
 
   const text = await Armada.readFile("LICENSE");
-  Deno.core.print(text);
+  console.log(text);
+
+  console.log({
+    a: {
+      deeply: {
+        nested: [
+          "object",
+          "that",
+          "includes",
+          "numbers",
+          "like",
+          1,
+          "and",
+          2n,
+        ],
+      },
+    },
+  });
 }
 
 main();
