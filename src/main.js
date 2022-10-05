@@ -1,7 +1,11 @@
 (() => {
+  const { opSync } = globalThis.__bootstrap.core;
+
   globalThis.Armada = {
     get version() {
-      return "0.1.0";
+      return opSync("op_version");
     },
   };
+
+  delete globalThis.__bootstrap;
 })();

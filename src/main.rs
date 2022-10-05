@@ -1,4 +1,5 @@
 use deno_core::include_js_files;
+use deno_core::op;
 use deno_core::Extension;
 use deno_core::JsRuntime;
 use deno_core::RuntimeOptions;
@@ -12,6 +13,7 @@ fn main() {
             prefix "armada:",
             "main.js",
         ))
+        .ops(vec![op_version::decl()])
         .build();
 
     let mut runtime = JsRuntime::new(RuntimeOptions {
@@ -21,4 +23,9 @@ fn main() {
     runtime
         .execute_script(&path, &source_code)
         .expect("execution succeeds");
+}
+
+#[op]
+fn op_version() -> String {
+    env!("CARGO_PKG_VERSION").to_owned()
 }
