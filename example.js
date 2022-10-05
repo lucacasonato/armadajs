@@ -13,15 +13,19 @@ async function main() {
           "object",
           "that",
           "includes",
-          "numbers",
+          "primitives",
           "like",
           1,
           "and",
-          2n,
+          true,
         ],
       },
     },
   });
+
+  const resp = await fetch("https://hello.deno.dev");
+  console.log(resp);
+  console.log(await resp.text());
 }
 
 main();

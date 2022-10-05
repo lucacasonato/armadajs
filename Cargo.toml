@@ -6,4 +6,8 @@ edition = "2021"
 [dependencies]
 deno_console = "0.71.0"
 deno_core = "0.153.0"
+deno_fetch = "0.94.0"
+deno_url = "0.71.0"
+deno_web = "0.102.0"
+deno_webidl = "0.71.0"
 tokio = { version = "1.21.2", features = ["full"] }

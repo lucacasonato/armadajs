@@ -1,9 +1,37 @@
+use std::path::Path;
+
 use deno_core::error::AnyError;
 use deno_core::include_js_files;
 use deno_core::op;
+use deno_core::url::Url;
 use deno_core::Extension;
 use deno_core::JsRuntime;
 use deno_core::RuntimeOptions;
+use deno_fetch::FetchPermissions;
+use deno_web::BlobStore;
+use deno_web::TimersPermission;
+
+struct AllowAllPermissions;
+
+impl TimersPermission for AllowAllPermissions {
+    fn allow_hrtime(&mut self) -> bool {
+        true
+    }
+
+    fn check_unstable(&self, _state: &deno_core::OpState, _api_name: &'static str) {
+        // allow unstable apis
+    }
+}
+
+impl FetchPermissions for AllowAllPermissions {
+    fn check_net_url(&mut self, _url: &Url, _api_name: &str) -> Result<(), AnyError> {
+        Ok(())
+    }
+
+    fn check_read(&mut self, _path: &Path, _api_name: &str) -> Result<(), AnyError> {
+        Ok(())
+    }
+}
 
 #[tokio::main]
 async fn main() {
@@ -16,10 +44,24 @@ async fn main() {
             "main.js",
         ))
         .ops(vec![op_version::decl(), op_read_file::decl()])
+        .state(|state| {
+            state.put(AllowAllPermissions);
+            Ok(())
+        })
         .build();
 
     let mut runtime = JsRuntime::new(RuntimeOptions {
-        extensions: vec![deno_console::init(), armada_ext],
+        extensions: vec![
+            deno_console::init(),
+            deno_webidl::init(),
+            deno_url::init(),
+            deno_web::init::<AllowAllPermissions>(BlobStore::default(), None),
+            deno_fetch::init::<AllowAllPermissions>(deno_fetch::Options {
+                user_agent: format!("armadajs/{}", env!("CARGO_PKG_VERSION")),
+                ..Default::default()
+            }),
+            armada_ext,
+        ],
         ..Default::default()
     });
     runtime
