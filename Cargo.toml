@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 deno_core = "0.153.0"
+tokio = { version = "1.21.2", features = ["full"] }
